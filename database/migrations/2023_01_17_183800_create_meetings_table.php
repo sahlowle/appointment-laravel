@@ -25,6 +25,7 @@ class CreateMeetingsTable extends Migration
             $table->timestamp('meet_date');
             $table->string('time_zone');
             $table->smallInteger('status')->nullable();
+            $table->boolean('is_sent')->default(false);
             $table->timestamps();
         });
     }

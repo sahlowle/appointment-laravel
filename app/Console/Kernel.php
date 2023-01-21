@@ -7,14 +7,24 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    
     /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+
+    protected $commands = [
+        'App\Console\Commands\ReminderMeeting'
+      ];
+
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('reminder:meeting')->everyMinute()->withoutOverlapping();
+
+        $schedule->command('queue:work --stop-when-empty')->everyMinute()->withoutOverlapping();
+
         // $schedule->command('inspire')->hourly();
     }
 

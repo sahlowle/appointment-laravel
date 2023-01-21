@@ -13,9 +13,13 @@ class Meeting extends Model
         'id'
     ];
 
+    protected $dates = ['meet_date'];
+
     protected $casts = [
         'meet_date' => 'datetime:Y-m-d  H:i:s',
+        'is_sent' => 'boolean',
     ];
+
 
     protected $appends = [
         'time_from'
@@ -52,6 +56,15 @@ class Meeting extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    /**
+     * Get the User that owns the Meeting
+     *
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     

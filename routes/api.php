@@ -5,7 +5,9 @@ use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MeetingController;
 use App\Mail\NewMeeting;
+use App\Mail\RemindMeeting;
 use App\Models\Meeting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -51,12 +53,34 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('test-email', function () {
+Route::get('test-email', function () {
 
-//     Mail::to("sahlowle@gmail.com")->later(now()->addMinutes(1),new NewMeeting(Meeting::latest('id')->first()));
+     $data = Meeting::with('user')->whereDate('meet_date','<=',Carbon::today())->get();
 
-//     return "success";
-// });
+
+     foreach ($data as $key => $meeting) {
+
+        date_default_timezone_set($meeting->time_zone);
+
+        if ($meeting->meet_date->diffInMinutes(Carbon::now()) <= 60 && $meeting->is_sent == false ) {
+            
+            Mail::to($meeting->email)->send(new RemindMeeting($meeting));
+            Mail::to($meeting->user->email)->send(new RemindMeeting($meeting));
+
+            $meeting->update(['is_sent'=>true]);
+
+            return $meeting;
+        }
+
+    }
+
+     // return $meeting = Meeting::with('user')->first();
+    // $meeting->email ="mis.gxr@gmail.com";
+    // $meeting->save();
+    // Mail::to($meeting->email)->send(new RemindMeeting($meeting));
+
+    // return "success";
+});
 
 // Route::get('check-slug', function () {
 

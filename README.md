@@ -18,10 +18,11 @@ DB_PASSWORD=
 # migrate and seed tables
 php artisan migrate:fresh --seed
 
-# Run Queue
-you can run queue local or in cron job by using command:
+# Run Cron Job and  Queue To Send Emails And Reminders
 
-php artisan queue:work --stop-when-empty
+you can run local or in cron job by using command:
+
+php artisan schedule:run
 
 ```
 
