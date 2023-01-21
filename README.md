@@ -38,3 +38,5 @@ php artisan serve
       Password:  password
 
 ```
+Go To Next JS Repo 
+[https://github.com/sahlowle/appointment-next-js-app](https://github.com/sahlowle/appointment-next-js-app "https://github.com/sahlowle/appointment-next-js-app")
